@@ -112,19 +112,22 @@ int main(int argc, const char *argv[])
 	if (argc < 3 || argc > 4) {
 		fprintf(stderr, "Wrong Parameters\n");
 		printf("Usage: load bootloader load_addr [launch_addr]\n");
+		printf("If launch_addr is not passed or launch_addr equals to 0, bootloader will be loaded without executing it.\n");
 		return -1;
 	}
 	
 	if (sscanf(argv[2], "%x", &load_addr) != 1) {
 		fprintf(stderr, "Invalid Parameters \"load_addr\"\n");
 		printf("Usage: load bootloader load_addr [launch_addr]\n");
+		printf("If launch_addr is not passed or launch_addr equals to 0, bootloader will be loaded without executing it.\n");
 	}
 	
-	if (argc == 3)
-		launch_addr = load_addr;
-	else if (sscanf(argv[3], "%x", &launch_addr) != 1) {
+	if (argc == 3) {
+		launch_addr = 0;
+	} else if (sscanf(argv[3], "%x", &launch_addr) != 1) {
 		fprintf(stderr, "Invalid Parameters \"launch_addr\"\n");
 		printf("Usage: load bootloader load_addr [launch_addr]\n");
+		printf("If launch_addr is not passed or launch_addr equals to 0, bootloader will be loaded without executing it.\n");
 	}
 
 	size = readBin(mem + 0x200, argv[1]);
